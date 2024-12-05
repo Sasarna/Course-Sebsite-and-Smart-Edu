@@ -1,0 +1,25 @@
+{
+  "name": "smartedu",
+  "version": "1.0.0",
+  "description": "An educational website/web application where courses like Udemy can be uploaded and watched.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sasarna/Course-Sebsite-and-Smart-Edu.git"
+  },
+  "author": "Yakup Hadutoğlu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sasarna/Course-Sebsite-and-Smart-Edu/issues"
+  },
+  "homepage": "https://github.com/Sasarna/Course-Sebsite-and-Smart-Edu#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
