@@ -18,7 +18,8 @@
   "homepage": "https://github.com/Sasarna/Course-Sebsite-and-Smart-Edu#readme",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "mongoose": "^8.8.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
