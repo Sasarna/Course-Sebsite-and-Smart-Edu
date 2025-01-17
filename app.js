@@ -27,7 +27,9 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 
 //* Routes
 app.use('/', pageRoute);
-app.use('/course' , courseRoute);
+app.use('/courses' , courseRoute);
+
+
 
 app.listen(PORT, () => {
     console.log(`App started on port : ${PORT}`);
