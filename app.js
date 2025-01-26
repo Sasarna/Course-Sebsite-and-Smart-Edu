@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const pageRoute = require('./routes/pageRoutes.js');
 const courseRoute = require('./routes/courseRoutes.js');
 const categoryRoute = require('./routes/categoryRoutes.js');
+const userRoute = require('./routes/userRoutes.js');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use('/', pageRoute);
 app.use('/courses' , courseRoute);
 app.use('/categories' , categoryRoute);
+app.use('/users' , userRoute);
 
 
 

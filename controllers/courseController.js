@@ -1,5 +1,6 @@
 const Course = require('../models/Course.js');
 const Category = require('../models/Category.js');
+
 exports.createCourse = async (req , res) => {
     try {
         const course = await Course.create(req.body);
