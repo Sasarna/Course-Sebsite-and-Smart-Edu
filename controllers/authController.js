@@ -24,7 +24,8 @@ exports.loginUser = async (req , res) => {
             const same = await bcrypt.compare(password, user.password);
             if (same) {
                 //! user session
-                res.status(200).send('Login successful');
+                req.session.userID = user._id;
+                res.status(200).redirect('/');
             } else {
                 res.status(400).send('Invalid credentials');
             }
