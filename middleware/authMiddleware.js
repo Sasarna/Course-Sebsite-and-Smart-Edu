@@ -1,19 +1,18 @@
-
-const User = require('../models/User.js');
+const User = require("../models/User.js");
 
 module.exports = async (req, res, next) => {
   try {
-    // Dikkat: session'da sakladığınız anahtarın isminin tutarlı olduğundan emin olun.
-    // Örneğin, login fonksiyonunuzda req.session.userID olarak ayarlamışsınız.
     const user = await User.findById(req.session.userID);
 
     if (!user) {
-      return res.redirect('/login');
+      return res.redirect("/login");
     }
+
+    req.user = user;
 
     next();
   } catch (error) {
     console.error(error);
-    return res.redirect('/login');
+    return res.redirect("/login");
   }
-};
+}

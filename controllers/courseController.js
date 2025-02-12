@@ -1,20 +1,36 @@
 const Course = require('../models/Course.js');
 const Category = require('../models/Category.js');
 
-exports.createCourse = async (req , res) => {
+exports.createCourse = async (req, res) => {
     try {
-        const course = await Course.create(req.body);
-        res.status(200).json({
-            status: 'succesfull',
-            course,
-        })
-    } catch(error) {
+        const { name, description, category } = req.body; // Verileri parçala
+
+        // 1. Kategori ObjectId'sini bul
+        const foundCategory = await Category.findOne({ name: category });
+
+        if (!foundCategory) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Kategori bulunamadı',
+            });
+        }
+
+        // 2. Kursu ObjectId ile oluştur
+        const course = await Course.create({
+            name,
+            description,
+            category: foundCategory._id, // ÖNEMLİ: ObjectId kullanılıyor
+        });
+
+        res.status(200).redirect('/courses');
+    } catch (error) {
+        console.error("Kurs oluşturulurken hata:", error); // Hata ayıklama için log ekleyin
         res.status(400).json({
             status: 'fail',
-            error,
+            error: error.message, // Daha farklı hata mesajı gönderin
         });
     }
-}
+};
 
 exports.getAllCourses = async (req , res) => {
     try {
@@ -25,7 +41,7 @@ exports.getAllCourses = async (req , res) => {
         if(categorySlug) {
             filter = {category:category._id}
         }
-        const courses = await Course.find(filter);
+        const courses = await Course.find(filter).sort({createdAt: -1});
 
         const categories = await Category.find();
         res.status(200).render('courses' , {

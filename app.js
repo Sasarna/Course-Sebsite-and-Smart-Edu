@@ -11,7 +11,7 @@ const userRoute = require('./routes/userRoutes.js');
 
 const app = express();
 
-const PORT = 3000;
+const PORT = 5000;
 
 //* Connect DB
 mongoose.connect('mongodb://localhost/smartedu_db')
@@ -35,6 +35,7 @@ app.use(session({
     secret: 'my_keyboard_cat',
     resave: false,
     saveUninitialized: true,
+    cookie: {secure: true},
     store: MongoStore.create({ mongoUrl: 'mongodb://localhost/smartedu_db' }),
 }));
 
