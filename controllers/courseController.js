@@ -3,7 +3,12 @@ const Category = require('../models/Category.js');
 
 exports.createCourse = async (req, res) => {
     try {
-        const { name, description, category } = req.body; // Verileri parçala
+        const { name, description, category , user} = {
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            user: req.user._id,
+        }; // Verileri parçala
 
         // 1. Kategori ObjectId'sini bul
         const foundCategory = await Category.findOne({ name: category });
@@ -20,6 +25,7 @@ exports.createCourse = async (req, res) => {
             name,
             description,
             category: foundCategory._id, // ÖNEMLİ: ObjectId kullanılıyor
+            user,
         });
 
         res.status(200).redirect('/courses');
@@ -44,9 +50,12 @@ exports.getAllCourses = async (req , res) => {
         const courses = await Course.find(filter).sort({createdAt: -1});
 
         const categories = await Category.find();
+
+        const user = req.user;
         res.status(200).render('courses' , {
             courses,
             categories,
+            user,
             page_name: "courses"
         });
     } catch (error) {
@@ -59,7 +68,7 @@ exports.getAllCourses = async (req , res) => {
 
 exports.getCourse = async (req , res) => {
     try {
-        const course = await Course.findOne({slug: req.params.slug});
+        const course = await Course.findOne({slug: req.params.slug}).populate('user');
 
         res.status(200).render('course' , {
             course,
