@@ -39,33 +39,93 @@ exports.createCourse = async (req, res) => {
     }
 };
 
-exports.getAllCourses = async (req , res) => {
+// exports.getAllCourses = async (req , res) => {
+//     try {
+//         const categorySlug = req.query.categories;
+
+//         const query = req.query.search;
+
+//         const category = await Category.findOne({slug:categorySlug})
+
+//         let filter = {};
+//         if(categorySlug) {
+//             filter = {category:category._id}
+//         }
+
+//         if(query) {
+//             filter = {name:query}
+//         }
+
+//         if(!query && !categorySlug) {
+//             filter.name = "",
+//             filter.category = null
+//         }
+
+//         const courses = await Course.find(
+//             $or,[
+//                 {name : {$regex: '.*' + filter.name + '.*' , $options: 'i'}},
+//                 {category: filter.category}
+
+//             ]
+//         ).sort({createdAt: -1});
+//         const categories = await Category.find();
+
+//         const user = req.user;
+//         res.status(200).render('courses' , {
+//             courses,
+//             categories,
+//             user,
+//             page_name: "courses"
+//         });
+//     } catch (error) {
+//         res.status(400).json({
+//             status: "fail",
+//             error,
+//         });
+//     }
+// }
+
+exports.getAllCourses = async (req, res) => {
     try {
         const categorySlug = req.query.categories;
-        const category = await Category.findOne({slug:categorySlug})
+        const query = req.query.search;
 
-        let filter = {};
-        if(categorySlug) {
-            filter = {category:category._id}
+        let category = null;
+        if (categorySlug) {
+            category = await Category.findOne({ slug: categorySlug });
         }
-        const courses = await Course.find(filter).sort({createdAt: -1});
+
+        let searchConditions = [];
+
+        if (query) {
+            searchConditions.push({ name: { $regex: '.*' + query + '.*', $options: 'i' } });
+        }
+        if (category) {
+            searchConditions.push({ category: category._id });
+        }
+
+        const courses = await Course.find(
+            searchConditions.length > 0 ? { $or: searchConditions } : {}
+        ).sort('-createdAt').populate('user');
 
         const categories = await Category.find();
-
         const user = req.user;
-        res.status(200).render('courses' , {
+
+        res.status(200).render('courses', {
             courses,
             categories,
             user,
-            page_name: "courses"
+            page_name: "courses",
         });
+
     } catch (error) {
         res.status(400).json({
             status: "fail",
-            error,
+            error: error.message,
         });
     }
-}
+};
+
 
 exports.getCourse = async (req , res) => {
     try {
