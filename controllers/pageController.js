@@ -23,3 +23,8 @@ exports.getLoginPage = (req , res) => {
     });
 }
 
+exports.getContantPage = (req , res) => {
+    res.status(200).render('contact' , {
+        page_name: "contact",
+    })
+}
