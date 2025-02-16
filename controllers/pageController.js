@@ -27,6 +27,7 @@ exports.getLoginPage = (req, res) => {
 
 exports.getContantPage = (req, res) => {
     res.status(200).render('contact', {
+        user: req.user,
         page_name: "contact",
     })
 }
@@ -41,7 +42,6 @@ exports.sendEmail = async (req, res) => {
         <h1>Messsages</h1>
         <p>${req.body.message}</p>
     `;
-
 
     const transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
@@ -68,7 +68,5 @@ exports.sendEmail = async (req, res) => {
         // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
 
         res.status(200).redirect('contact');
-
-
 
 }

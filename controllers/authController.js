@@ -56,4 +56,3 @@ exports.getDashboardPage = async (req , res) => {
         courses,
     });
 }
-
