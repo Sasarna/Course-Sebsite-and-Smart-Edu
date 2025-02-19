@@ -15,6 +15,28 @@
                 <p class="lead">Let us give you more details about the special offer website you want us. Please fill out the form below. <br>We have million of website owners who happy to work with us!</p>
             </div><!-- end title -->
 
+            <% if(flashMessages) { %>
+                <% if(flashMessages.success) { %>
+                    <div class="alert alert-success" id="flashMessage">
+                        <%= flashMessages.success %>
+                    </div>
+                <% } else if (flashMessages.error) { %>
+                    <div class="alert alert-danger" id="flashMessage">
+                        <%= flashMessages.error %>
+                    </div>
+                <% } %>
+            <% } %>
+            <script>
+                setTimeout(() => {
+                    const flashMessage = document.getElementById('flashMessage');
+                    if (flashMessage) {
+                        flashMessage.style.transition = "opacity 0.5s";
+                        flashMessage.style.opacity = "0";
+                        setTimeout(() => flashMessage.remove(), 500);
+                    }
+                }, 5000);
+            </script>
+
             <div class="row">
                 <div class=" col-xl-12 col-md-12 col-sm-12">
                     <div class="contact_form">

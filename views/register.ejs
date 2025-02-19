@@ -1,41 +1,75 @@
 <%- include('./partials/_header.ejs') %>
 
-<%- include('./partials/_navigation.ejs') %>
+    <%- include('./partials/_navigation.ejs') %>
 
-	        <div class="container">
+        <div class="container">
             <div class="section-title text-center">
                 <h3 class="mt-5">REGISTER</h3>
 
-            <div class="row">
-                <div class="col-xl-12 col-md-12 col-sm-12">
-                    <div class="contact_form">
-                        <div id="message"></div>
-                        <form method="POST" action="/users/signup">
-                            <div class="row row-fluid">
-							    <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                </div>
-                                <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <select class="form-control" name="role">
-                                        <option value="student">student</option>
-                                        <option value="teacher">teacher</option>
-                                    </select>
-                                </div>
-                                <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-                                </div>
-                                <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <button type="submit" value="LOGIN" id="submit" class="btn btn-light btn-radius btn-brd grd1 btn-block">REGISTER</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- end col -->
-            </div><!-- end row -->
-        </div><!-- end container -->
-	 </div><!-- end container -->
+                <!-- <% if(flashMessages) { %>
+					<% if (flashMessages.error) { %>
+						<div class="alert alert-danger" id="flashMessage">
+							<%= flashMessages.error %>
+						</div>
+					<% } %>
+				<% } %> -->
+                <% if (flashMessages.error) { %>
+                    <div style="display:flex; justify-content: space-evenly; text-align: center;">
 
-     <%- include('./partials/_footer.ejs') %>
+                        <% flashMessages.error.forEach(function(msg) { %>
+                            <div class="alert alert-danger" style="list-style: none; " id="flashMessage">
+                                <%= msg %>
+                            </div>
+                            <% }); %>
+
+                    </div>
+                    <% } %>
+                        <script>
+                            setTimeout(() => {
+                                const flashMessages = document.querySelectorAll('#flashMessage');
+                                flashMessages.forEach(flashMessage => {
+                                    flashMessage.style.transition = "opacity 0.5s";
+                                    flashMessage.style.opacity = "0";
+                                    setTimeout(() => flashMessage.remove(), 500);
+                                });
+                            }, 5000);
+                        </script>
+                        <div class="row">
+
+
+                            <div class="col-xl-12 col-md-12 col-sm-12">
+                                <div class="contact_form">
+                                    <div id="message"></div>
+                                    <form method="POST" action="/users/signup" novalidate>
+                                        <div class="row row-fluid">
+                                            <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                                <input type="text" name="name" id="name" class="form-control"
+                                                    placeholder="Name">
+                                            </div>
+                                            <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                                <select class="form-control" name="role">
+                                                    <option value="student">student</option>
+                                                    <option value="teacher">teacher</option>
+                                                </select>
+                                            </div>
+                                            <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                                <input type="email" name="email" id="email" class="form-control"
+                                                    placeholder="Email">
+                                            </div>
+                                            <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                                <input type="password" name="password" id="password"
+                                                    class="form-control" placeholder="Password">
+                                            </div>
+                                            <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                                <button type="submit" value="LOGIN" id="submit"
+                                                    class="btn btn-light btn-radius btn-brd grd1 btn-block">REGISTER</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+            </div><!-- end container -->
+        </div><!-- end container -->
+
+        <%- include('./partials/_footer.ejs') %>

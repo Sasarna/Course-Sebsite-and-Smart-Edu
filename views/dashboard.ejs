@@ -14,10 +14,28 @@
 					</div>
 				</div>
 
+
 				<div id="overviews" class="section wb">
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-12 blog-post-single">
+				<% if(flashMessages) { %>
+					<% if(flashMessages.success) { %>
+						<div class="alert alert-success" id="flashMessage">
+							<%= flashMessages.success %>
+						</div>
+						<% } %>
+							<% } %>
+								<script>
+									setTimeout(() => {
+										const flashMessage = document.getElementById('flashMessage');
+										if (flashMessage) {
+											flashMessage.style.transition = "opacity 0.5s";
+											flashMessage.style.opacity = "0";
+											setTimeout(() => flashMessage.remove(), 500);
+										}
+									}, 5000);
+								</script>
 								<div class="blog-author">
 									<div class="author-bio">
 										<h3 class="author_name"><a href="#">Tom Jobs</a></h3>
@@ -30,7 +48,7 @@
 										</p>
 									</div>
 									<div class="author-desc">
-										<img src="images/author.jpg" alt="about author">
+										<img src="/images/author.jpg" alt="about author">
 									</div>
 								</div>
 
@@ -58,7 +76,8 @@
 											</div>
 
 											<form method="POST" action="/courses/release">
-												<input type="hidden" name="course_id" value="<%= user.courses[i]._id %>">
+												<input type="hidden" name="course_id"
+													value="<%= user.courses[i]._id %>">
 												<button
 													class="btn btn-lg btn-danger text-white"><span>RELEASE</span></button>
 											</form>
@@ -83,36 +102,55 @@
 							</div>
 						</div>
 
+
 						<div id="overviews" class="section wb">
+
 							<div class="container">
+									<% if(flashMessages) { %>
+										<% if(flashMessages.success) { %>
+											<div class="alert alert-success" id="flashMessage">
+												<%= flashMessages.success %>
+											</div>
+											<% } %>
+												<% } %>
+													<script>
+														setTimeout(() => {
+															const flashMessage = document.getElementById('flashMessage');
+															if (flashMessage) {
+																flashMessage.style.transition = "opacity 0.5s";
+																flashMessage.style.opacity = "0";
+																setTimeout(() => flashMessage.remove(), 500);
+															}
+														}, 5000);
+													</script>
 								<div class="row">
 
-									<div class="col-lg-12 text-center">
-										<button class="btn btnlg  btn-warning rounded-0 text-white" href=""
-											data-toggle="modal" data-target="#addCourse">
-											<span>
-												CREATE NEW COURSE
-											</span>
-										</button>
-									</div>
+													<div class="col-lg-12 text-center">
+														<button class="btn btnlg  btn-warning rounded-0 text-white"
+															href="" data-toggle="modal" data-target="#addCourse">
+															<span>
+																CREATE NEW COURSE
+															</span>
+														</button>
+													</div>
 
-									<div class="col-lg-12 blog-post-single">
-										<div class="blog-author">
-											<div class="author-bio">
-												<h3 class="author_name"><a href="#">
-														<%= user.name %>
-													</a></h3>
-												<h5>CEO at <a href="#">SmartEDU</a></h5>
-												<p class="author_det">
+													<div class="col-lg-12 blog-post-single">
+														<div class="blog-author">
+															<div class="author-bio">
+																<h3 class="author_name"><a href="#">
+																		<%= user.name %>
+																	</a></h3>
+																<h5>CEO at <a href="#">SmartEDU</a></h5>
+																<p class="author_det">
 
-												</p>
-											</div>
-											<div class="author-desc">
-												<img src="/images/author.jpg" alt="about author">
-											</div>
-										</div>
+																</p>
+															</div>
+															<div class="author-desc">
+																<img src="/images/author.jpg" alt="about author">
+															</div>
+														</div>
 
-									</div><!-- end col -->
+													</div><!-- end col -->
 								</div><!-- end row -->
 								<div class="row mt-5">
 

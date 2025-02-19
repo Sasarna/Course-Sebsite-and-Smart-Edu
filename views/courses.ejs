@@ -13,10 +13,32 @@
 
 		<div id="overviews" class="section wb">
 			<div class="container">
+				<% if(flashMessages) { %>
+					<% if(flashMessages.success) { %>
+						<div class="alert alert-success" id="flashMessage">
+							<%= flashMessages.success %>
+						</div>
+					<% } else if (flashMessages.error) { %>
+						<div class="alert - alert-danger" id="flashMessage">
+							<%= flashMessages.error %>
+						</div>
+					<% } %>
+				<% } %>
+				<script>
+					setTimeout(() => {
+						const flashMessage = document.getElementById('flashMessage');
+						if (flashMessage) {
+							flashMessage.style.transition = "opacity 0.5s";
+							flashMessage.style.opacity = "0";
+							setTimeout(() => flashMessage.remove(), 500);
+						}
+					}, 5000);
+				</script>
 				<div class="row">
 					<!-- Kurslar Bölümü -->
 					<div class="col-lg-9">
 						<div class="row">
+
 
 							<% for (let i=0; i < courses.length; i++) { %>
 
@@ -50,7 +72,7 @@
 						</div>
 					</div>
 					<!-- end col -->
-					 
+
 					<div class="col-lg-3 col-12 right-single">
 						<div class="widget-search">
 							<div class="site-search-area">

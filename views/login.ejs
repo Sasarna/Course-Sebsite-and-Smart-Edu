@@ -4,15 +4,41 @@
 
 	        <div class="container">
             <div class="section-title text-center">
+
                 <h3 class="mt-5">LOGIN</h3>
+
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12">
+
                     <div class="contact_form">
+
                         <div id="message"></div>
                         <form method="POST" action="users/login">
                             <div class="row row-fluid">
+
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                    <% if(flashMessages) { %>
+                                        <% if(flashMessages.success) { %>
+                                            <div class="alert alert-success" id="flashMessage">
+                                                <%= flashMessages.success %>
+                                            </div>
+                                        <% } else if (flashMessages.error) { %>
+                                            <div class="alert alert-danger" id="flashMessage">
+                                                <%= flashMessages.error %>
+                                            </div>
+                                        <% } %>
+                                    <% } %>
+                                    <script>
+                                        setTimeout(() => {
+                                            const flashMessage = document.getElementById('flashMessage');
+                                            if (flashMessage) {
+                                                flashMessage.style.transition = "opacity 0.5s";
+                                                flashMessage.style.opacity = "0";
+                                                setTimeout(() => flashMessage.remove(), 500);
+                                            }
+                                        }, 5000);
+                                    </script>   
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Email">
                                 </div>
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">

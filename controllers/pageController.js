@@ -29,11 +29,15 @@ exports.getContantPage = (req, res) => {
     res.status(200).render('contact', {
         user: req.user,
         page_name: "contact",
-    })
+    });
 }
 
 exports.sendEmail = async (req, res) => {
-    const outputMessage = `
+
+    try {
+
+
+        const outputMessage = `
         <h1>MAİL Details</h1>
         <ul>
             <li>Name: ${req.body.name}</li>
@@ -43,17 +47,17 @@ exports.sendEmail = async (req, res) => {
         <p>${req.body.message}</p>
     `;
 
-    const transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for port 465, false for other ports
-        auth: {
-            user: "zoe.lockman78@ethereal.email",
-            pass: "YhHMCCz8b2mW4YDKaF",
-        },
-    });
+        const transporter = nodemailer.createTransport({
+            host: "smtp.ethereal.email",
+            port: 587,
+            secure: false, // true for port 465, false for other ports
+            auth: {
+                user: "zoe.lockman78@ethereal.email",
+                pass: "YhHMCCz8b2mW4YDKaF",
+            },
+        });
 
-    // async..await is not allowed in global scope, must use a wrapper
+        // async..await is not allowed in global scope, must use a wrapper
 
         // send mail with defined transport object
         const info = await transporter.sendMail({
@@ -66,7 +70,10 @@ exports.sendEmail = async (req, res) => {
 
         console.log("Message sent: %s", info.messageId);
         // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
-
+        req.flash("success" , "Your message has been sent successfully");
         res.status(200).redirect('contact');
-
+    } catch (error) {
+        req.flash("error" , "Your message has not been sent successfully");
+        res.status(200).redirect('contact');
+    }
 }

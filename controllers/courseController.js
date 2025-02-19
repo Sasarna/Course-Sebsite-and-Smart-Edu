@@ -28,14 +28,11 @@ exports.createCourse = async (req, res) => {
             category: foundCategory._id, //! ObjectId kullanılıyor
             user,
         });
-
+        req.flash("success" ,  `${name} Course created Successfully.`);
         res.status(200).redirect('/courses');
     } catch (error) {
-        console.error("Kurs oluşturulurken hata:", error); //* Hata ayıklama için log ekleyin
-        res.status(400).json({
-            status: 'fail',
-            error: error.message, //* Daha farklı hata mesajı gönderin
-        });
+        req.flash("success" ,`${req.body.name} Course created Successfully.`);
+        res.status(400).redirect('/courses');
     }
 };
 
@@ -44,7 +41,7 @@ exports.getAllCourses = async (req, res) => {
         const categorySlug = req.query.categories;
         const query = req.query.search;
 
-        let category = null; 
+        let category = null;
         if (categorySlug) {
             category = await Category.findOne({ slug: categorySlug });
         }
