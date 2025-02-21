@@ -172,7 +172,14 @@
 															<%= courses[i].description%>
 														</p>
 													</div>
+													<div class="clearfix">
+														<ul style="list-style-type: none; display: flex; column-gap: 40%;">
+															<li><a class="btn btn-primary rounded-0 text-white"><span>Update</span></a></li>
+															<li><a class="btn btn-danger rounded-0 text-white" href="/courses/<%= courses[i].slug %>?_method=DELETE" onclick=" return confirm('ARE YOU SURE?')"><span>Delete</span></a></li>
+														</ul>
+													</div>
 												</div>
+
 											</div>
 										</div>
 										<!-- end col -->

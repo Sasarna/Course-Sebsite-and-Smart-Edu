@@ -125,3 +125,29 @@ exports.releaseCourse = async (req , res) => {
         });
     }
 }
+
+exports.deleteCourse = async (req , res) => {
+    try {
+
+        const course =  await Course.findOneAndDelete({slug:req.params.slug}); //* http://localhost:3100/courses/go-lang
+        const usersToUpdate = await User.find({courses: course._id});
+        const courseCreateTeacher = await User.findById(course.user);
+
+        for(let i = 0 ; i < usersToUpdate.length; i++){
+            await usersToUpdate[i].courses.pull({_id: course._id});
+            await usersToUpdate[i].save();
+        }
+
+        if(courseCreateTeacher) {
+            await courseCreateTeacher.courses.pull(course._id);
+            await courseCreateTeacher.save();
+        }
+        req.flash('success' , `${course.name} Course deleted successfully.`);
+        res.status(200).redirect('/users/dashboard');
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        });
+    }
+}
