@@ -17,6 +17,7 @@ exports.createCourse = async (req, res) => {
         if (!foundCategory) {
             return res.status(404).json({
                 status: 'fail',
+                error: error.message,
                 message: 'Kategori bulunamadı',
             });
         }
@@ -143,6 +144,34 @@ exports.deleteCourse = async (req , res) => {
             await courseCreateTeacher.save();
         }
         req.flash('success' , `${course.name} Course deleted successfully.`);
+        res.status(200).redirect('/users/dashboard');
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        });
+    }
+}
+
+exports.updateCourse = async (req , res) => {
+    try {
+        //! http://localhost:3100/courses/go-lang
+        const course = await Course.findOne({slug: req.params.slug});
+        const name = req.body.name;
+        const description = req.body.description;
+        const categoryName = req.body.category;
+        const foundCategory = await Category.findOne({ name: categoryName });
+        if (!foundCategory) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'Kategori bulunamadı',
+            });
+        }
+        course.name = name;
+        course.description = description;
+        course.category = foundCategory._id;
+        await course.save();
+        req.flash('success' , `${name} Course updated successfully.`);
         res.status(200).redirect('/users/dashboard');
     } catch (error) {
         res.status(400).json({
