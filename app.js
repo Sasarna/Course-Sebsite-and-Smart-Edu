@@ -13,16 +13,15 @@ const userRoute = require("./routes/userRoutes.js");
 
 const app = express();
 
-const PORT = 3100;
 
 //* Connect DB
 mongoose.connect("mongodb://localhost/smartedu_db")
     .then(() => {
-        console.log("MongoDB database connection completed!");
+      console.log("MongoDB database connection completed!");
     })
     .catch((err) => {
         console.error(err);
-    });
+      });
 
 //* Template Engine
 app.set("view engine", "ejs");
@@ -36,15 +35,15 @@ global.userIN = null;
 app.use('*', (req, res, next) => {
   req.userIN = req.session.userID; // Kullanıcı bilgisini req nesnesine ekle
   next();
-});
+  });
 
-// Başka bir route
+  // Başka bir route
 app.get('/profil', (req, res) => {
   const userId = req.userIN; // Kullanıcı bilgisine req.userIN ile eriş
   if (userId) {
     // Kullanıcı oturum açmış, profil sayfasını göster
     res.render('profil', { userId: userId });
-  } else {
+    } else {
     // Kullanıcı oturum açmamış, giriş sayfasına yönlendir
     res.redirect('/giris');
   }
@@ -61,7 +60,7 @@ app.use(session({
         resave: false,
         saveUninitialized: true,
         store: MongoStore.create({ mongoUrl: "mongodb://localhost/smartedu_db" }),
-    })
+      })
 );
 app.use(flash());
 app.use((req , res , next)  => {
@@ -83,6 +82,8 @@ app.use("/", pageRoute);
 app.use("/courses", courseRoute);
 app.use("/categories", categoryRoute);
 app.use("/users", userRoute);
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`App started on port : ${PORT}`);
